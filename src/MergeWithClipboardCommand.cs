@@ -107,10 +107,44 @@
             return;
           }
 
-          TextDocument textDocument           = activeDocument.Object("TextDocument") as TextDocument;
-          EditPoint    startPoint             = textDocument.StartPoint.CreateEditPoint();
-          string       activeFileContent      = startPoint.GetText(textDocument.EndPoint);
-          string       activeFilePathOriginal = activeDocument.FullName;
+          TextDocument textDocument = activeDocument.Object("TextDocument") as TextDocument;
+          if (textDocument == null)
+          {
+            ShowMessageBox("Error", "No active TextDocument.");
+            return;
+          }
+
+          OptionsPage  options               = (OptionsPage)package.GetDialogPage(typeof(OptionsPage));
+          string       toolPath              = options.ToolPath;
+          string       toolArgumentsTemplate = options.ToolArguments;
+          CompareMode  compareMode           = options.CompareMode;
+
+          EditPoint startPoint    = null;
+          EditPoint endPoint      = null;
+          string    activeContent = string.Empty;
+
+          if (compareMode == CompareMode.Selection || compareMode == CompareMode.SelectionOrDocument)
+          {
+            startPoint    = textDocument.Selection.TopPoint.CreateEditPoint();
+            endPoint      = textDocument.Selection.BottomPoint.CreateEditPoint();
+            activeContent = textDocument.Selection.Text;
+          }
+
+          if (string.IsNullOrEmpty(activeContent) && compareMode == CompareMode.Selection)
+          {
+            ShowMessageBox("Error", "Compare mode is set to 'Selection' but no text is selected.");
+            return;
+          }
+
+          if (string.IsNullOrEmpty(activeContent))
+          {
+            // No active selection -> Fall back to comparing against the whole document
+            startPoint    = textDocument.StartPoint.CreateEditPoint();
+            endPoint      = textDocument.EndPoint.CreateEditPoint();
+            activeContent = startPoint.GetText(endPoint);
+          }
+
+          string activeFilePathOriginal = activeDocument.FullName;
 
           // Getting clipboard text must be on the UI thread.
           string clipboardContent = Clipboard.GetText();
@@ -119,10 +153,6 @@
             ShowMessageBox("Info", "Clipboard is empty.");
             return;
           }
-
-          OptionsPage options               = (OptionsPage)package.GetDialogPage(typeof(OptionsPage));
-          string      toolPath              = options.ToolPath;
-          string      toolArgumentsTemplate = options.ToolArguments;
 
           if (string.IsNullOrEmpty(toolPath))
           {
@@ -150,9 +180,9 @@
           string finalOutputToRead = outputFilePath;
 
           // BEST PRACTICE: Use Task.Run to execute synchronous, blocking I/O on a background thread.
-          await Task.Run(() => File.WriteAllText(tempFile1Path, activeFileContent));
+          await Task.Run(() => File.WriteAllText(tempFile1Path, activeContent));
           await Task.Run(() => File.WriteAllText(tempFile2Path, clipboardContent));
-          await Task.Run(() => File.WriteAllText(outputFilePath, activeFileContent));
+          await Task.Run(() => File.WriteAllText(outputFilePath, activeContent));
 
           string finalArguments = toolArgumentsTemplate
                                   .Replace("{filePath1}", $"\"{tempFile1Path}\"")
@@ -185,9 +215,9 @@
           // --- Back to the UI thread to update the editor ---
           await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
 
-          if (mergedContent != activeFileContent)
+          if (mergedContent != activeContent)
           {
-            startPoint.ReplaceText(textDocument.EndPoint, mergedContent, (int)vsEPReplaceTextOptions.vsEPReplaceTextKeepMarkers);
+            startPoint.ReplaceText(endPoint, mergedContent, (int)vsEPReplaceTextOptions.vsEPReplaceTextKeepMarkers);
             //ShowMessageBox("Success", "Merge applied to the active editor.");
           }
         }

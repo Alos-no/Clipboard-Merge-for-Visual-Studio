@@ -17,6 +17,11 @@
     [Description("Command line arguments. Use {filePath1} (editor), {filePath2} (clipboard), {outputFilePath} (merged result).")]
     public string ToolArguments { get; set; } = "{filePath1} {filePath2} /savetarget={outputFilePath}"; // Example for Beyond Compare
 
+    [Category("Compare Mode")]
+    [DisplayName("Compare clipboard to")]
+    [Description("Compare clipboard to a non-empty selection or the whole document.\nWith 'SelectionOrDocument' the clipboard is compared to a selection if present, otherwise to the whole document.")]
+    public CompareMode CompareMode { get; set; } = CompareMode.Document;
+
     #endregion
 
     // The 3-way merge logic from your TS file can be added here if needed.
