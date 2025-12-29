@@ -1,47 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
-    <Metadata>
-        <Identity Id="ClipboardMergeForVisualStudio.c31d8a5b-68a8-4dfa-896f-acb6f1aa2713" Version="1.0.8" Language="en-US" Publisher="MjosDrone" />
+<PackageManifest Version="2.0.0"
+                 xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011"
+                 xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <!-- Bump this when you publish a new VSIX -->
+    <Identity Id="ClipboardMergeForVisualStudio.c31d8a5b-68a8-4dfa-896f-acb6f1aa2713"
+              Version="1.0.9"
+              Language="en-US"
+              Publisher="MjosDrone" />
 
-        <!-- This is the name that appears in the "Extensions and Updates" dialog. -->
-        <DisplayName>External Clipboard Merge for Visual Studio</DisplayName>
+    <!-- This is the name that appears in the "Extensions and Updates" dialog. -->
+    <DisplayName>External Clipboard Merge for Visual Studio</DisplayName>
 
-        <!-- A brief description of your extension. -->
-        <Description xml:space="preserve">Opens an external merge tool to compare the active editor content with the clipboard content. This makes it easy to review and integrate new changes made by AI Code Assistants. Configure your merge tool path under Tools &gt; Options.</Description>
+    <!-- A brief description of your extension. -->
+    <Description xml:space="preserve">
+      Opens an external merge tool to compare the active editor content with the clipboard content.
+      This makes it easy to review and integrate new changes made by AI Code Assistants.
+      Configure your merge tool path under Tools &gt; Options.
+    </Description>
 
-        <!-- The author of the extension. -->
-        <Author>Alexis Pujo</Author>
+    <!-- The author of the extension. -->
+    <Author>Alexis Pujo</Author>
 
-        <!-- Essential links that add professionalism and trust. -->
-        <MoreInfo>https://github.com/MjosDrone/Clipboard-Merge-for-Visual-Studio</MoreInfo>
-        <License>Resources\LICENSE.txt</License>
-        <GettingStartedGuide>https://github.com/MjosDrone/Clipboard-Merge-for-Visual-Studio#readme</GettingStartedGuide>
+    <!-- Essential links that add professionalism and trust. -->
+    <MoreInfo>https://github.com/MjosDrone/Clipboard-Merge-for-Visual-Studio</MoreInfo>
+    <License>Resources\LICENSE.txt</License>
+    <GettingStartedGuide>https://github.com/MjosDrone/Clipboard-Merge-for-Visual-Studio#readme</GettingStartedGuide>
 
-        <!-- Visuals are crucial for making your extension stand out. -->
-        <Icon>Resources\icon.png</Icon>
-        <PreviewImage>Resources\preview.png</PreviewImage>
-      
-        <!-- Tags are used for searching in the Visual Studio Marketplace. -->
-        <Tags>diff, merge, compare, external, tool, clipboard, code review, AI</Tags>
-    </Metadata>
-    <Installation>
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,18.0)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,18.0)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-        <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,18.0)">
-            <ProductArchitecture>amd64</ProductArchitecture>
-        </InstallationTarget>
-    </Installation>
-    <Dependencies>
-        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
-    </Dependencies>
-    <Prerequisites>
-        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[17.0,18.0)" DisplayName="Visual Studio core editor" />
-    </Prerequisites>
-    <Assets>
-        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
-    </Assets>
+    <!-- Visuals are crucial for making your extension stand out. -->
+    <Icon>Resources\icon.png</Icon>
+    <PreviewImage>Resources\preview.png</PreviewImage>
+
+    <!-- Tags are used for searching in the Visual Studio Marketplace. -->
+    <Tags>diff, merge, compare, external, tool, clipboard, code review, AI</Tags>
+  </Metadata>
+
+  <Installation>
+    <!-- VS 2022 and higher, all editions, AMD64 -->
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,)">
+      <ProductArchitecture>amd64</ProductArchitecture>
+    </InstallationTarget>
+
+    <!-- VS 2022 and higher, all editions, Arm64 -->
+    <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,)">
+      <ProductArchitecture>arm64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[17.0,)">
+      <ProductArchitecture>arm64</ProductArchitecture>
+    </InstallationTarget>
+    <InstallationTarget Id="Microsoft.VisualStudio.Enterprise" Version="[17.0,)">
+      <ProductArchitecture>arm64</ProductArchitecture>
+    </InstallationTarget>
+  </Installation>
+
+  <Dependencies>
+    <Dependency Id="Microsoft.Framework.NDP"
+                DisplayName="Microsoft .NET Framework"
+                d:Source="Manual"
+                Version="[4.5,)" />
+  </Dependencies>
+
+  <Prerequisites>
+    <!-- Open ended range so VS 2026 core editor satisfies it -->
+    <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor"
+                  Version="[17.0,)"
+                  DisplayName="Visual Studio core editor" />
+  </Prerequisites>
+
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage"
+           d:Source="Project"
+           d:ProjectName="%CurrentProject%"
+           Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
 </PackageManifest>
