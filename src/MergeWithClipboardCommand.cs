@@ -110,39 +110,38 @@
           TextDocument textDocument = activeDocument.Object("TextDocument") as TextDocument;
           if (textDocument == null)
           {
-              ShowMessageBox("Error", "No active TextDocument.");
-              return;
+            ShowMessageBox("Error", "No active TextDocument.");
+            return;
           }
 
+          OptionsPage  options               = (OptionsPage)package.GetDialogPage(typeof(OptionsPage));
+          string       toolPath              = options.ToolPath;
+          string       toolArgumentsTemplate = options.ToolArguments;
+          CompareMode  compareMode           = options.CompareMode;
 
-          OptionsPage options = (OptionsPage)package.GetDialogPage(typeof(OptionsPage));
-          string toolPath = options.ToolPath;
-          string toolArgumentsTemplate = options.ToolArguments;
-          CompareMode compareMode=options.CompareMode;
-
-          EditPoint startPoint = null;
-          EditPoint endPoint = null;
-          string activeContent = string.Empty;
+          EditPoint startPoint    = null;
+          EditPoint endPoint      = null;
+          string    activeContent = string.Empty;
 
           if (compareMode == CompareMode.Selection || compareMode == CompareMode.SelectionOrDocument)
           {
-              startPoint = textDocument.Selection.TopPoint.CreateEditPoint();
-              endPoint = textDocument.Selection.BottomPoint.CreateEditPoint();
-              activeContent = textDocument.Selection.Text;
+            startPoint    = textDocument.Selection.TopPoint.CreateEditPoint();
+            endPoint      = textDocument.Selection.BottomPoint.CreateEditPoint();
+            activeContent = textDocument.Selection.Text;
           }
-          
-          if(string.IsNullOrEmpty(activeContent) && compareMode==CompareMode.Selection)
+
+          if (string.IsNullOrEmpty(activeContent) && compareMode == CompareMode.Selection)
           {
-              ShowMessageBox("Error", "Comparemode is set to -selection- and selection is empty");
-              return;
+            ShowMessageBox("Error", "Compare mode is set to 'Selection' but no text is selected.");
+            return;
           }
-          
-          if(string.IsNullOrEmpty(activeContent))
+
+          if (string.IsNullOrEmpty(activeContent))
           {
-              //No active selection -> Fall back to comparing against the whole document
-              startPoint    = textDocument.StartPoint.CreateEditPoint();
-              endPoint      = textDocument.EndPoint.CreateEditPoint();
-              activeContent = startPoint.GetText(endPoint);
+            // No active selection -> Fall back to comparing against the whole document
+            startPoint    = textDocument.StartPoint.CreateEditPoint();
+            endPoint      = textDocument.EndPoint.CreateEditPoint();
+            activeContent = startPoint.GetText(endPoint);
           }
 
           string activeFilePathOriginal = activeDocument.FullName;
@@ -154,7 +153,6 @@
             ShowMessageBox("Info", "Clipboard is empty.");
             return;
           }
-
 
           if (string.IsNullOrEmpty(toolPath))
           {

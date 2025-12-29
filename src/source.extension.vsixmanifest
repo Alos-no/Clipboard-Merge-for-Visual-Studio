@@ -5,7 +5,7 @@
   <Metadata>
     <!-- Bump this when you publish a new VSIX -->
     <Identity Id="ClipboardMergeForVisualStudio.c31d8a5b-68a8-4dfa-896f-acb6f1aa2713"
-              Version="1.0.9"
+              Version="1.1.0"
               Language="en-US"
               Publisher="MjosDrone" />
 
@@ -22,10 +22,12 @@
     <!-- The author of the extension. -->
     <Author>Alexis Pujo</Author>
 
+    <Company>Alos Engineering</Company>
+
     <!-- Essential links that add professionalism and trust. -->
-    <MoreInfo>https://github.com/MjosDrone/Clipboard-Merge-for-Visual-Studio</MoreInfo>
+    <MoreInfo>https://github.com/Alos-no/Clipboard-Merge-for-Visual-Studio</MoreInfo>
     <License>Resources\LICENSE.txt</License>
-    <GettingStartedGuide>https://github.com/MjosDrone/Clipboard-Merge-for-Visual-Studio#readme</GettingStartedGuide>
+    <GettingStartedGuide>https://github.com/Alos-no/Clipboard-Merge-for-Visual-Studio#readme</GettingStartedGuide>
 
     <!-- Visuals are crucial for making your extension stand out. -->
     <Icon>Resources\icon.png</Icon>

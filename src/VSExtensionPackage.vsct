@@ -75,7 +75,7 @@
 
   <!-- KeyBindings are a direct child of the root CommandTable element -->
   <KeyBindings>
-    <KeyBinding guid="guidExternalMergeVSExtensionPackageCmdSet" id="MergeWithClipboardCommand2Id" editor="guidVSStd97" key1="M" mod1="Control" mod2="Alt" />
+    <KeyBinding guid="guidExternalMergeVSExtensionPackageCmdSet" id="MergeWithClipboardCommand2Id" editor="guidVSStd97" key1="M" mod1="Control Alt" />
   </KeyBindings>
 
   <Symbols>
